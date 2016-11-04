@@ -68,6 +68,18 @@ var LoginForm = React.createClass({
   }
 });
 
+function setHeaders(sessionId){
+  $.ajaxSetup({
+    beforeSend: function(xhr){
+      xhr.setRequestHeader("X-Parse-Application-Id", "tiygvl");
+      xhr.setRequestHeader("X-Parse-REST-API-Key", "slumber");
+
+      if(sessionId){
+        xhr.setRequestHeader("X-Parse-Session-Token", sessionId);
+      }
+    }
+  });
+}
 
 var LoginContainer = React.createClass({
   getInitialState: function(){
@@ -77,9 +89,9 @@ var LoginContainer = React.createClass({
   },
   signUpNewUser: function(username, password){
     this.state.user.set({username: username, password: password});
-    this.state.user.signUp(function(){
-      
-    });
+    this.state.user.signUp();
+
+    setHeaders(sessionId);
   },
   render: function(){
     return (
